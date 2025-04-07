@@ -307,31 +307,29 @@ def chatbot():
 
     # --- Rule-based responses ---
     if "hello" in user_msg or "hi" in user_msg:
-        bot_reply = "Hello! 😊 How are you feeling today?"
+        reply = "Hello! 😊 How are you feeling today?"
     elif "sad" in user_msg or "upset" in user_msg:
-        bot_reply = "I'm really sorry to hear that. Want to talk about it?"
+        reply = "I'm really sorry to hear that. Want to talk about it?"
     elif "happy" in user_msg:
-        bot_reply = "That's wonderful! Keep smiling 🌟"
-    elif "anxious" in user_msg or "nervous" in user_msg:
-        bot_reply = "Try some deep breathing. Would you like a breathing exercise?"
+        reply = "That's wonderful! Keep smiling 🌟"
+    elif "anxious" in user_msg or "nervous" in user_msg or "worried" in user_msg:
+        reply = "It’s okay to feel anxious. I'm here for you. Would you like to try a calming exercise or journaling?"
     elif "bye" in user_msg or "goodbye" in user_msg:
-        bot_reply = "Take care! I'm always here when you need me. 💛"
-    elif "help" in user_msg:
-        bot_reply = "Sure, I can help. Are you looking for self-care tips, mood tracking, or someone to talk to?"
-    elif "stress" in user_msg or "tired" in user_msg:
-        bot_reply = "It’s okay to feel this way. How about taking a short walk or listening to some calming music?"
+        reply = "Take care 🌸 Remember, you're not alone."
     else:
-        bot_reply = "I'm here for you. Can you tell me more about how you're feeling?"
+        # Fallback to emotion-based smart replies
+        history = [{"role": "user", "content": user_msg}]
+        reply = bot_reply(history)  # 👈 use a separate function name
 
     # Save conversation to DB
     sql = "INSERT INTO chatbot_conversations (user_msg, bot_reply) VALUES (%s, %s)"
     conn = get_mysql_connection()
     cursor = conn.cursor()
-    val = (user_msg, bot_reply)
+    val = (user_msg, reply)
     cursor.execute(sql, val)
     conn.commit()
 
-    return jsonify({"response": bot_reply})
+    return jsonify({"response": reply})
 
 
 @app.route("/chatbot", methods=["GET"])

@@ -1,0 +1,97 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    
+    background-color: rgb(247, 241, 211);
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+  }
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff7e6;
+    padding: 1rem 2rem;/*bottom and top=1rem  left and right=2rem*/
+  }
+  .logo {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #3f7257;
+  }
+  
+  #nav ul {
+    display: flex;
+    gap: 1.5rem;
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  #nav a {
+    text-decoration:none;
+    color: #3f7257;
+    font-weight: 600;
+  }
+  
+  
+  .breathing-container {
+    text-align: center;
+    background-color: #fff8dc; /* light pastel yellow */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0;
+    color: #5c4411;
+
+  }
+  
+  h1 {
+    margin-bottom: 2rem;
+    color: #19622b;
+  }
+  
+  .circle {
+    width: 150px;
+    height: 150px;
+    margin: 0 auto;
+    background-color: #ebf4b9;
+    border-radius: 50%;
+    transition: transform 2s ease-in-out;
+  }
+  
+  #instruction {
+    font-size: 1.5rem;
+    margin-top: 1.5rem;
+    color: #333;
+  }
+  
+  #calm-text {
+    font-size: 1.2rem;
+    color: #666;
+    font-style: italic;
+  }
+
+  button {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    background-color: #2a7a36;
+    color: #ffffff;
+    border: none;
+    border-radius: 1rem;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: background-color 0.3s ease;
+    margin-top: 1rem;
+  }
+  
+  button:hover {
+    background-color: #206f2c;
+  }

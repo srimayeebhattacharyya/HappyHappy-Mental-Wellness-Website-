@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Journal</title>
+    <link rel="stylesheet" href="/static/style2.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1 class="logo">HappyHappy 🌿</h1>
+            <div id="nav">
+                <ul>
+                    <li><a href="{{ url_for('index') }}">Back To Home</a></li>
+                    <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                </ul>
+            </div>
+        </header>
+
+        <section id="journal-entry">
+            <h2>Write in Your Journal</h2>
+            <form method="POST" action="{{ url_for('save_journal') }}">
+                <textarea name="entry" rows="10" cols="50" placeholder="What's on your mind today?" required></textarea><br>
+                <button type="submit">Save Entry</button>
+            </form>
+        </section>
+
+        {% if entries %}
+        <section id="past-entries">
+            <h2>Your Previous Entries 📝</h2>
+            <ul>
+                {% for entry in entries %}
+                    <li>
+                        <p><strong>{{ entry.timestamp }}</strong></p>
+                        <p>{{ entry.entry }}</p>
+                        <hr>
+                    </li>
+                {% endfor %}
+            </ul>
+        </section>
+        {% endif %}
+    </div>
+</body>
+</html>

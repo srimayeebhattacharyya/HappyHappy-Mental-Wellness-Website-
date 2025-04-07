@@ -1,0 +1,302 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  html {
+    scroll-behavior: smooth;
+  }  
+
+  body {
+    font-family: 'Segoe UI', sans-serif;
+    line-height: 1.6;
+    background-color: #f6f5e1;
+    color: #333;
+  }
+  
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff7e6;
+    padding: 1rem 2rem;/*bottom and top=1rem  left and right=2rem*/
+  }
+  .logo {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #3f7257;
+  }
+  
+  #nav ul {
+    display: flex;
+    gap: 1.5rem;
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  #nav a {
+    text-decoration:none;
+    color: #3f7257;
+    font-weight: 600;
+  }
+
+  .hero {
+    text-align: center;
+    padding: 5rem 2rem;
+    background: linear-gradient(to bottom right, #eaedd7, #ffffff), 
+    linear-gradient(to bottom left, #eaedd7, #ffffff),
+    linear-gradient(to top left, #eaedd7, #ffffff),
+    linear-gradient(to top right, #eaedd7, #ffffff);
+  }
+  
+  .hero h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .hero p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+  }
+  
+  .btn {
+    background-color: #3f7257;
+    color: white;
+    padding: 0.8rem 2rem;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: bold;
+  }
+
+  .self-help {
+    margin: 4rem 0;
+    background-color: #f9f7de;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 0 12px rgba(0,0,0,0.05);
+}
+
+.self-help h2 {
+    text-align: center;
+    color: #3f7257;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+}
+
+.tools {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+}
+
+.tool-card {
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: calc(33.33% - 1rem);
+    background-color: #f3fdf7;
+    padding: 1.5rem;
+    border-radius: 1rem;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease;
+    /*
+        Meaning:
+        flex-grow: 1 → The item can grow to fill available space.
+
+        flex-shrink: 1 → The item can shrink when needed.
+
+        flex-basis: calc(33.33% - 1rem) → The initial size of the item is roughly 1/3 of the container, minus 1rem for spacing (like a gap/margin).
+
+        💡 It’s often used to make 3 cards or boxes in a row, with a little space between them.
+    */
+}
+
+.tool-card:hover {
+    transform: translateY(-5px);
+}
+
+.tool-card h3 {
+    color: #2e5f47;
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+}
+
+.tool-card p {
+    font-size: 1rem;
+    color: #444;
+}
+
+.tool-btn {
+    display: inline-block;
+    margin-top: 1rem;
+    padding: 0.5rem 1.5rem;
+    background-color: #3f7257;
+    color: white;
+    border-radius: 30px;
+    text-decoration: none;
+    transition: background 0.3s ease;
+}
+
+.tool-btn:hover {
+    background-color: #2d5943;
+}
+
+#mood-tracker {
+    padding: 2rem;
+    background-color: #f9f7de;
+    text-align: center;
+}
+
+.mood-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 500px;
+    margin: auto;
+}
+
+.mood-form label {
+    margin: 1rem 0 0.5rem;
+    font-weight: bold;
+}
+
+.mood-form select,
+.mood-form textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    resize: none;
+}
+
+.mood-form button {
+    margin-top: 1.5rem;
+    background-color: #3f7257;
+    color: white;
+    border: none;
+    padding: 0.75rem 2rem;
+    border-radius: 2rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.mood-form button:hover {
+    background-color:#2d5943;
+    transition: all 0.3s;
+}
+
+.user-stories, .quotes, .chatbot {
+    border-radius: 1rem;
+    padding: 2rem;
+    margin: 2rem 0;
+    box-shadow: 0 0 10px rgba(0,0,0,0.05);
+}
+
+.user-stories .story-card {
+    background-color: #fff;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-left: 5px solid #166f32;
+    border-radius: 1rem;
+}
+
+.quotes blockquote {
+    font-style: italic;
+    margin: 1rem 0;
+    padding-left: 1rem;
+    border-left: 4px solid #20632a;
+    color: #333;
+    border-radius: 0.5rem;
+}
+
+.chatbot .chatbot-btn {
+    display: inline-block;
+    margin-top: 1rem;
+    padding: 0.75rem 1.5rem;
+    background-color: #136d1d;
+    color: white;
+    border-radius: 1rem;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.chatbot-btn:hover{
+    background-color: #217621;
+}
+
+  .about{
+    padding: 3rem 2rem;
+    text-align: center;
+  }
+
+  .featured-articles {
+    padding: 2rem;
+  }
+  
+  .featured-articles h2 {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+  }
+  
+  .card-container {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .card {
+    background-color: #f3fdf7;
+    border-radius: 1rem;
+    box-shadow: 0 0 15px rgba(187, 199, 110, 0.1);
+    overflow: hidden;
+    max-width: 300px;
+    transition: transform 0.2s ease;
+  }
+  
+  .card:hover {
+    transform: scale(1.03);
+  }
+  
+  .card img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+  
+  .card-content {
+    padding: 1rem;
+  }
+  
+  .card-content h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .card-content p {
+    font-size: 0.95rem;
+    color: #555;
+  }
+  
+  .read-more {
+    display: inline-block;
+    margin-top: 0.5rem;
+    color: #18512c;
+    text-decoration: none;
+    font-weight: bold;
+  }  
+
+  footer {
+    text-align: center;
+    padding: 1rem;
+    background-color: #fff7e6;
+    margin-top: 2rem;
+    font-size: 0.9rem;
+  }

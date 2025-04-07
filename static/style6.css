@@ -1,0 +1,77 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    
+    background-color: rgb(247, 241, 211);
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+  }
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff7e6;
+    padding: 1rem 2rem;/*bottom and top=1rem  left and right=2rem*/
+  }
+  .logo {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #3f7257;
+  }
+  
+  #nav ul {
+    display: flex;
+    gap: 1.5rem;
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  #nav a {
+    text-decoration:none;
+    color: #3f7257;
+    font-weight: 600;
+  }
+
+.affirmations {
+    text-align: center;
+    padding: 3rem 2rem;
+    background-color: #fff9e6; /* soft yellow */
+    border-radius: 2rem;
+    margin: 2rem auto;
+    max-width: 600px;
+    box-shadow: 0 0 15px rgba(255, 223, 120, 0.5);
+  }
+  
+  .affirmations h2 {
+    color: #d4a373; /* warm brownish */
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+  
+  #affirmation-text {
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+    color: #5c5c5c;
+  }
+  
+  .affirmations button {
+    background-color: #fcd581;
+    color: #333;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 1rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .affirmations button:hover {
+    background-color: #f1c75b;
+  }
+  

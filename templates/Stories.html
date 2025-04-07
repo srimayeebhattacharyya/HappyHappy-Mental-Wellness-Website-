@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Stories | HappyHappy</title>
+    <link rel="stylesheet" href="/static/style3.css">
+</head>
+<body>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <ul class="flashes">
+        {% for category, message in messages %}
+        <li class="{{ category }}">{{ message }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+    {% endwith %}
+    <div class="story-container">
+        <header>
+            <h1 class="logo">HappyHappy 🌿</h1>
+            <div id="nav">
+                <ul>
+                    <li><a href="{{ url_for('index') }}">Back To Home</a></li>
+                </ul>
+            </div>
+        </header>
+        <h2>💖 Share Your Story</h2>
+        <form class="story-form" method="POST">
+            <input type="text" name="name" placeholder="Your Name" required>
+            <input type="text" name="title" placeholder="Title of Your Story" required>
+            <textarea name="story" rows="6" placeholder="Write your story here..." required></textarea>
+            <button type="submit">Submit Story</button>
+        </form>
+
+        <div class="stories-section">
+            <h3>🌟 Inspiring Journeys</h3>
+            {% for s in stories %}
+            <div class="story-card">
+                <h4>{{ s.title }}</h4>
+                <br>
+                <p>by {{ s.name }}</p>
+                <br>
+                <p>{{ s.story }}</p>
+            </div>
+            {% endfor %}
+        </div>        
+    </div>
+</body>
+</html>

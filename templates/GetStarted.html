@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register / Login</title>
+    <link rel="stylesheet" href="/static/style1.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1 class="logo">HappyHappy 🌿</h1>
+            <div id="nav">
+                <ul>
+                    <li><a href="{{ url_for('index') }}">Home</a></li>
+                    <li><a href="/Selfhelp">Self-Help</a></li>
+                    <li><a href="/Stories">Stories</a></li>
+                    <li><a href="/Contact">Contact</a></li>
+                </ul>
+            </div>
+        </header>
+        <form method="POST" action="{{ url_for('auth') }}">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+        
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+        
+            <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                <button type="submit" name="action" value="login">Login</button>
+                <button type="submit" name="action" value="signup">Sign Up</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

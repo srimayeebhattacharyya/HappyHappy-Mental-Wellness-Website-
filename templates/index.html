@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mental Wellness</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1 class="logo">HappyHappy 🌿</h1>
+            <div id="nav">
+                <ul>
+                    <li><a href="{{ url_for('index') }}">Home</a></li>
+                    <li><a href="#self-help">Self-Help</a></li>
+                    <li><a href="/Stories">Stories</a></li>
+                    <li><a href="{{ url_for('Contact') }}">Contact</a></li>
+                    <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                </ul>
+            </div>
+        </header>
+        <section class="hero">
+            <h1>Your Mental Wellness Journey Starts Here</h1>
+            <p>Explore expert advice, tools, and a supportive community for your mental well-being.</p>
+            <a href="/GetStarted" class="btn">Get Started</a>
+        </section>
+        <section class="self-help" id="self-help">
+            <h2>Self-Help Tools 🛠️</h2>
+            <div class="tools">
+                <div class="tool-card">
+                    <h3>Daily Journal</h3>
+                    <p>Write down your thoughts, feelings, and reflections with ease.</p>
+                    <a href="{{ url_for('journal') }}" class="tool-btn">Open Journal</a>
+                </div>
+                <div class="tool-card">
+                    <h3>Breathing Exercise</h3>
+                    <p>Practice guided breathing to reduce stress and anxiety.</p>
+                    <a href="{{ url_for('Trynow') }}" class="tool-btn">Try Now</a>
+                </div>
+                <div class="tool-card">
+                    <h3>Affirmations</h3>
+                    <p>Read or generate positive affirmations to boost your mood.</p>
+                    <a href="/Affirmations" class="tool-btn">Get Affirmations</a>
+                </div>
+            </div>
+        </section>
+        <section id="mood-tracker">
+            <h2>How Are You Feeling Today? 💬</h2>
+            <form class="mood-form" method="POST" action="{{ url_for('submit_mood') }}">
+                <label for="mood">Select Your Mood:</label>
+                <select id="mood" name="mood">
+                    <option value="happy">😊 Happy</option>
+                    <option value="sad">😢 Sad</option>
+                    <option value="anxious">😟 Anxious</option>
+                    <option value="angry">😠 Angry</option>
+                    <option value="neutral">😐 Neutral</option>
+                </select>
+                <label for="note">Want to share more?</label>
+                <textarea id="note" name="note" rows="4" placeholder="Write something..."></textarea>
+        
+                <button type="submit">Submit Mood</button>
+            </form>
+        </section>
+        <section class="user-stories">
+            <h2>Real Stories. Real People. 💖</h2>
+            <br>
+            <div class="stories">
+                <div class="story-card">
+                    <p>"After using HappyHappy daily, I feel more in control of my emotions."</p>
+                    <span>- Srimayee, 20</span>
+                </div>
+                <div class="story-card">
+                    <p>"Journaling helped me through tough times. Thank you, HappyHappy!"</p>
+                    <span>- Rishi, 22</span>
+                </div>
+            </div>
+        </section>  
+        <section class="quotes">
+            <h2>Words That Heal 🌈</h2>
+            <blockquote>"You don’t have to control your thoughts. You just have to stop letting them control you." — Dan Millman</blockquote>
+            <blockquote>"Your mental health is a priority. Your happiness is essential. Your self-care is a necessity."</blockquote>
+        </section>
+        <section class="chatbot">
+            <h2>Need a friend to talk to?</h2>
+            <p>Try our supportive chatbot to express your feelings, ask questions, or just talk. 💬</p>
+            <a href="/chatbot" class="chatbot-btn">Chat Now</a>          
+        </section>                                               
+        <section class="about">
+            <h2>Why Mental Wellness Matters</h2>
+            <br>
+            <p>Mental wellness is just as important as physical health. At HappyHappy, we provide a safe space, tools, and guidance for anyone seeking support.</p>
+        </section>
+        <section class="featured-articles">
+            <h2>Featured Articles</h2>
+            <div class="card-container">
+              
+              <!-- Article 1 -->
+              <div class="card">
+                <img src="/static/images/mindfullness.jpg" alt="Mindfulness Tips">
+                <div class="card-content">
+                  <h3>5 Mindfulness Tips for Everyday Life</h3>
+                  <p>Discover easy ways to practice mindfulness and reduce stress during your daily routine.</p>
+                  <a href="https://www.headspace.com/mindfulness/mindfulness-tips" target="_blank" class="read-more">Read More →</a>
+                </div>
+              </div>
+          
+              <!-- Article 2 -->
+              <div class="card">
+                <img src="/static/images/selfcare.jpg" alt="Self-Care Strategies">
+                <div class="card-content">
+                  <h3>Self-Care: Why It’s Essential</h3>
+                  <p>Understand the importance of self-care and how it impacts your emotional and mental well-being.</p>
+                  <a href="https://psychcentral.com/health/self-care" target="_blank" class="read-more">Read More →</a>
+                </div>
+              </div>
+          
+              <!-- Article 3 -->
+              <div class="card">
+                <img src="/static/images/sleep.jpg" alt="Sleep and Mental Health">
+                <div class="card-content">
+                  <h3>How Sleep Affects Mental Health</h3>
+                  <p>Learn how getting quality sleep plays a vital role in managing anxiety, depression, and overall health.</p>
+                  <a href="https://www.sleepfoundation.org/mental-health" target="_blank" class="read-more">Read More →</a>
+                </div>
+              </div>
+          
+            </div>
+          </section>
+        <footer>
+            <p>© 2025 HappyHappy | Privacy Policy | All rights reserved</p>
+        </footer>
+    </div>
+</body>
+</html>

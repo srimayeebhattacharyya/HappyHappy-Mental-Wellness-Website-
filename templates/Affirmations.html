@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Affirmations</title>
+    <link rel="stylesheet" href="/static/style6.css">
+</head>
+<body>
+    <header>
+        <h1 class="logo">HappyHappy 🌿</h1>
+        <div id="nav">
+            <ul>
+                <li><a href="{{ url_for('index') }}">Back To Home</a></li>
+            </ul>
+        </div>
+    </header>
+    <section class="affirmations" id="affirmations">
+        <h2>✨ Daily Affirmation ✨</h2>
+        <p id="affirmation-text">Click the button to get your affirmation!</p>
+        <button onclick="checkAndShowAffirmation()">Get Affirmation</button>
+        <script>
+            const isLoggedIn = "{{ 'true' if logged_in else 'false' }}" === "true";
+        
+            function checkAndShowAffirmation() {
+                if (!isLoggedIn) {
+                    alert("Please log in to access affirmations.");
+                    window.location.href = "/login";
+                } else {
+                    getAffirmation();
+                }
+            }
+        
+            function getAffirmation() {
+                const affirmations = [
+                    "You are strong and capable.",
+                    "Every day is a fresh start.",
+                    "You deserve happiness.",
+                    "You are enough, just as you are.",
+                    "Your mind is calm and your heart is strong.",
+                    "You are growing every single day.",
+                    "Kindness flows from you naturally.",
+                    "You are loved more than you know.",
+                    "Your feelings are valid.",
+                    "Peace begins with you."
+                ];
+                const randomIndex = Math.floor(Math.random() * affirmations.length);
+                const selected = affirmations[randomIndex];
+                document.getElementById("affirmation-text").textContent = selected;
+        
+                // send to backend
+                fetch("/save_affirmation", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ affirmation: selected })
+                }).then(res => res.json())
+                  .then(data => {
+                      console.log(data);
+                  });
+            }
+        </script>                           
+</body>
+</html>

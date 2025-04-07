@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Breathing Exercise</title>
+  <link rel="stylesheet" href="/static/style5.css">
+</head>
+<body>
+    <header>
+        <h1 class="logo">HappyHappy 🌿</h1>
+        <div id="nav">
+            <ul>
+                <li><a href="{{ url_for('index') }}">Back To Home</a></li>
+            </ul>
+        </div>
+    </header>
+    <div class="breathing-container">
+        <h1>Let's Breathe Together 🌬️</h1>
+        <div class="circle" id="circle"></div>
+        <p id="instruction">Inhale...</p>
+        <p id="calm-text" style="opacity: 0; transition: opacity 1s ease;">Here we go...</p>
+        <button id="toggle-btn">Start</button>
+        <button id="done-btn" style="margin-top: 20px; display: none;">I Feel Better 😊</button>
+        <p id="log-message" style="margin-top: 10px; color: green;"></p>  
+      </div>
+    </div>
+
+    <script>
+      const circle = document.getElementById("circle");
+      const instruction = document.getElementById("instruction");
+      const toggleBtn = document.getElementById("toggle-btn");
+      const doneBtn = document.getElementById("done-btn");
+      const logMessage = document.getElementById("log-message");
+    
+      const steps = [
+        { text: "Inhale...", size: "scale(1.2)", time: 4000 },
+        { text: "Hold...", size: "scale(1.2)", time: 2000 },
+        { text: "Exhale...", size: "scale(1)", time: 4000 },
+        { text: "Hold...", size: "scale(1)", time: 2000 }
+      ];
+    
+      let i = 0;
+      let interval = null;
+      let isRunning = false;
+      let loopCount = 0;
+    
+      function breathe() {
+        const step = steps[i % steps.length];
+        instruction.textContent = step.text;
+        circle.style.transform = step.size;
+        i++;
+    
+        // After one full cycle (4 steps), show the done button
+        if (i % steps.length === 0) {
+          loopCount++;
+          if (loopCount >= 2) {  // Show after 2 cycles (~24 sec)
+            doneBtn.style.display = "inline-block";
+          }
+        }
+    
+        interval = setTimeout(breathe, step.time);
+      }
+    
+      toggleBtn.addEventListener("click", () => {
+        if (!isRunning) {
+          breathe();
+          toggleBtn.textContent = "Pause";
+          isRunning = true;
+        } else {
+          clearTimeout(interval);
+          toggleBtn.textContent = "Start";
+          isRunning = false;
+        }
+      });
+    
+      doneBtn.addEventListener("click", () => {
+        fetch('/breathing_done', { method: 'POST' })
+          .then(res => res.json())
+          .then(data => {
+            if (data.status === 'success') {
+              logMessage.textContent = "Great job! Session logged 💖";
+              doneBtn.style.display = "none";
+            } else {
+              logMessage.textContent = "Something went wrong. Try again.";
+            }
+          });
+      });
+    </script>          
+</body>
+</html>

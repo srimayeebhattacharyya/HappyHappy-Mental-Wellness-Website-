@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Your Mood Journal 💬</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #fff8f0;
+            padding: 2rem;
+            color: #333;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .mood-entry {
+            background-color: #fefefe;
+            border-left: 5px solid #ffb347;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 1rem;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        }
+        .mood-type {
+            font-size: 1.2rem;
+        }
+        .mood-note {
+            margin-top: 0.5rem;
+        }
+        .timestamp {
+            font-size: 0.85rem;
+            color: #888;
+        }
+        a {
+            display: inline-block;
+            margin-top: 2rem;
+            text-decoration: none;
+            color: #4a4a4a;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Your Mood Journal 💜</h2>
+
+    {% for entry in moods %}
+    <div class="mood-entry">
+        <div class="mood-type">
+            {% if entry[0] == 'happy' %}
+                😊 Happy
+            {% elif entry[0] == 'sad' %}
+                😢 Sad
+            {% elif entry[0] == 'anxious' %}
+                😟 Anxious
+            {% elif entry[0] == 'angry' %}
+                😠 Angry
+            {% elif entry[0] == 'neutral' %}
+                😐 Neutral
+            {% else %}
+                🌈 {{ entry[0] }}
+            {% endif %}
+        </div>
+        <div class="mood-note">{{ entry[1] }}</div>
+    </div>
+{% endfor %}
+
+<a href="{{ url_for('index') }}">← Back to Home</a>
+</body>
+</html>

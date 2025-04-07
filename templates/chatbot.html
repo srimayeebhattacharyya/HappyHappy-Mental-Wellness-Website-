@@ -29,36 +29,34 @@
     const chatWindow = document.getElementById("chat-window");
     const chatForm = document.getElementById("chat-form");
     const userInput = document.getElementById("user-input");
-
+  
     window.onload = () => userInput.focus();
-
+  
     chatForm.addEventListener("submit", function (e) {
       e.preventDefault();
-      const message = userInput.value.trim();
-      if (!message) return;
-
-      body: JSON.stringify({ message: message }),
-
-      fetch("https://happyhappy-mental-wellness-website.onrender.com/chatbot", {
-      method: "POST",
-      body: JSON.stringify({ message: userMessage }),
-      headers: {
-      "Content-Type": "application/json"
-      }
+      const userMessage = userInput.value.trim();
+      if (!userMessage) return;
+  
+      appendMessage("You", userMessage, "user-message");
+  
+      fetch("/chatbot", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ message: userMessage })
       })
       .then(res => res.json())
       .then(data => {
-        appendMessage("Bot", data.response, "bot-message");
+        appendMessage("Bot", data.reply, "bot-message");
       })
       .catch(err => {
         appendMessage("Bot", "Oops! Something went wrong 💔", "bot-message");
       });
-
+  
       userInput.value = "";
     });
-    
-
-
+  
     function appendMessage(sender, text, className) {
       const messageDiv = document.createElement("div");
       messageDiv.classList.add("message", className);
@@ -66,6 +64,6 @@
       chatWindow.appendChild(messageDiv);
       chatWindow.scrollTop = chatWindow.scrollHeight;
     }
-  </script>  
+  </script>    
 </body>
 </html>

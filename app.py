@@ -1,21 +1,21 @@
-from flask import Flask, render_template, request, redirect, url_for,jsonify,session,flash,Response,json
-import openai,traceback
-import mysql.connector
+from flask import Flask, render_template, request, redirect, url_for, jsonify, session
 from datetime import datetime
-from textblob import TextBlob
 from flask_session import Session
+import sqlite3
 import random
+
 app = Flask(__name__)
 app.secret_key = 'mithi-123'
 app.config['SESSION_TYPE'] = 'filesystem'
 Session(app)
-def get_mysql_connection():
-    return mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="Srimayee20",
-        database="happyhappy_db"
-    )
+
+DATABASE = 'happyhappy.db'
+
+def get_db_connection():
+    conn = sqlite3.connect(DATABASE)
+    conn.row_factory = sqlite3.Row
+    return conn
+
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -28,35 +28,27 @@ def GetStarted():
 def auth():
     username = request.form['username']
     password = request.form['password']
-    action = request.form['action']  # either 'login' or 'signup'
+    action = request.form['action']
 
-    conn = get_mysql_connection()
+    conn = get_db_connection()
     cursor = conn.cursor()
-
-    # Check if user exists
-    cursor.execute("SELECT password FROM users WHERE username = %s", (username,))
+    cursor.execute("SELECT password FROM users WHERE username = ?", (username,))
     result = cursor.fetchone()
 
     if action == 'login':
-        if result and result[0] == password:
+        if result and result['password'] == password:
             session['username'] = username
-            return redirect(url_for('index'))  # or dashboard
+            return redirect(url_for('index'))
         else:
             return "❌ Invalid username or password."
-
     elif action == 'signup':
         if result:
             return "⚠️ Username already taken. Try another one."
         else:
-            cursor.execute("INSERT INTO users (username, password) VALUES (%s, %s)", (username, password))
+            cursor.execute("INSERT INTO users (username, password) VALUES (?, ?)", (username, password))
             conn.commit()
             session['username'] = username
             return redirect(url_for('index'))
-
-    cursor.close()
-    conn.close()
-    return "Something went wrong!"
-
 
 @app.route('/Home')
 def Home():
@@ -65,7 +57,7 @@ def Home():
 @app.route('/Selfhelp')
 def Selfhelp():
     if 'username' not in session:
-        return redirect(url_for('GetStarted'))  # Redirect to login/signup page
+        return redirect(url_for('GetStarted'))
     return render_template('Self-help.html')
 
 @app.route('/submit_mood', methods=['POST'])
@@ -76,29 +68,21 @@ def submit_mood():
     mood = request.form['mood']
     note = request.form['note']
 
-    connection = get_mysql_connection()
-    if connection:
-        cursor = connection.cursor()
-        query = "INSERT INTO moods (mood, note) VALUES (%s, %s)"
-        cursor.execute(query, (mood, note))
-        connection.commit()
-        cursor.close()
-        connection.close()
-        return redirect(url_for('show_moods'))
-    else:
-        return "Database connection failed."
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("INSERT INTO moods (username, mood, note) VALUES (?, ?, ?)", (session['username'], mood, note))
+    conn.commit()
+    return redirect(url_for('show_moods'))
 
-@app.route('/show_moods', methods=['GET'])
+@app.route('/show_moods')
 def show_moods():
     if 'username' not in session:
         return redirect(url_for('GetStarted'))
 
-    connection = get_mysql_connection()
-    cursor = connection.cursor()
-    cursor.execute("SELECT mood, note FROM moods ORDER BY id DESC")
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT mood, note FROM moods WHERE username = ? ORDER BY id DESC", (session['username'],))
     moods = cursor.fetchall()
-    cursor.close()
-    connection.close()
     return render_template('moods.html', moods=moods)
 
 @app.route('/Stories', methods=['GET', 'POST'])
@@ -106,28 +90,21 @@ def Stories():
     if 'username' not in session:
         return redirect(url_for('GetStarted'))
 
-    connection = get_mysql_connection()
-    cursor = connection.cursor(dictionary=True)
+    conn = get_db_connection()
+    cursor = conn.cursor()
 
     if request.method == 'POST':
         name = request.form['name']
         title = request.form['title']
         story = request.form['story']
         username = session['username']
+        cursor.execute("INSERT INTO stories (username, name, title, story, timestamp) VALUES (?, ?, ?, ?, ?)",
+                       (username, name, title, story, datetime.now()))
+        conn.commit()
 
-        query = "INSERT INTO stories (username, name, title, story) VALUES (%s, %s, %s, %s)"
-        cursor.execute(query, (username, name, title, story))
-        connection.commit()
-
-    # Fetch all stories to display
     cursor.execute("SELECT name, title, story FROM stories ORDER BY timestamp DESC")
     all_stories = cursor.fetchall()
-
-    cursor.close()
-    connection.close()
-
     return render_template('Stories.html', stories=all_stories)
-
 
 @app.route('/Contact', methods=['GET', 'POST'])
 def Contact():
@@ -139,19 +116,13 @@ def Contact():
         email = request.form['email']
         message = request.form['message']
 
-        connection = get_mysql_connection()
-        if connection:
-            cursor = connection.cursor()
-            query = "INSERT INTO contacts (name, email, message) VALUES (%s, %s, %s)"
-            cursor.execute(query, (name, email, message))
-            connection.commit()
-            cursor.close()
-            connection.close()
-            return redirect(url_for('index'))
-        else:
-            return "Failed to connect to MySQL Database."
-    return render_template('Contact.html')
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute("INSERT INTO contacts (name, email, message) VALUES (?, ?, ?)", (name, email, message))
+        conn.commit()
+        return redirect(url_for('index'))
 
+    return render_template('Contact.html')
 
 @app.route('/save-journal', methods=['POST'])
 def save_journal():
@@ -159,46 +130,23 @@ def save_journal():
         return redirect(url_for('GetStarted'))
 
     entry = request.form['entry']
-    
-    connection = get_mysql_connection()
-    cursor = connection.cursor()
-    query = "INSERT INTO journals (username, entry, timestamp) VALUES (%s, %s, %s)"
-    cursor.execute(query, (session['username'], entry, datetime.now()))
-    connection.commit()
-    cursor.close()
-    connection.close()
-
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("INSERT INTO journals (username, entry, timestamp) VALUES (?, ?, ?)",
+                   (session['username'], entry, datetime.now()))
+    conn.commit()
     return redirect(url_for('journal'))
-
 
 @app.route('/journal')
 def journal():
     if 'username' not in session:
-        print("⚠️ No username in session")
         return redirect(url_for('GetStarted'))
 
-    username = session['username']
-    print(f"✅ Logged in as: {username}")
-
-    try:
-        connection = get_mysql_connection()
-        cursor = connection.cursor(dictionary=True)
-
-        query = "SELECT entry, timestamp FROM journals WHERE username = %s ORDER BY timestamp DESC"
-        cursor.execute(query, (username,))
-        entries = cursor.fetchall()
-
-        print("✅ Entries fetched:", entries[:2])  # print first 2 entries for debug
-
-        cursor.close()
-        connection.close()
-
-        return render_template('journal.html', entries=entries)
-
-    except Exception as e:
-        print("🔥 Error fetching journal entries:", e)
-        return "Error occurred while fetching journal entries."
-
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT entry, timestamp FROM journals WHERE username = ? ORDER BY timestamp DESC", (session['username'],))
+    entries = cursor.fetchall()
+    return render_template('journal.html', entries=entries)
 
 @app.route('/Trynow')
 def Trynow():
@@ -209,13 +157,10 @@ def breathing_done():
     if 'username' not in session:
         return jsonify({'status': 'unauthorized'}), 401
 
-    connection = get_mysql_connection()
-    cursor = connection.cursor()
-    query = "INSERT INTO breathing_sessions (username) VALUES (%s)"
-    cursor.execute(query, (session['username'],))
-    connection.commit()
-    cursor.close()
-    connection.close()
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("INSERT INTO breathing_sessions (username, timestamp) VALUES (?, ?)", (session['username'], datetime.now()))
+    conn.commit()
     return jsonify({'status': 'success'})
 
 affirmation_list = [
@@ -242,57 +187,46 @@ def save_affirmation():
     if not affirmation:
         return jsonify({'status': 'error', 'message': 'No affirmation provided'}), 400
 
-    conn = get_mysql_connection()
+    conn = get_db_connection()
     cursor = conn.cursor()
-    query = "INSERT INTO affirmations (username, affirmation) VALUES (%s, %s)"
-    cursor.execute(query, (session['username'], affirmation))
+    cursor.execute("INSERT INTO affirmations (username, affirmation) VALUES (?, ?)", (session['username'], affirmation))
     conn.commit()
-    cursor.close()
-    conn.close()
-
     return jsonify({'status': 'success'})
 
 @app.route('/Affirmations')
 def affirmations():
     if 'username' not in session:
-        return jsonify({'status': 'unauthorized'}), 401
-    return render_template('affirmations.html', logged_in=True)
+        return redirect(url_for('GetStarted'))
+    return render_template('affirmations.html', affirmations=affirmation_list, logged_in=True)
 
-
+# -------- Chatbot Logic -------- #
 def bot_reply(history):
     last_msg = history[-1]['content'].lower()
 
-    # Emotion-based logic
     if any(word in last_msg for word in ["sad", "depressed", "down", "unhappy", "hopeless"]):
         return random.choice([
             "I'm really sorry you're feeling this way. Want to talk about what's making you feel down?",
             "You're not alone. I'm here to listen, no judgment.",
             "It's okay to feel sad sometimes. Want to try a breathing exercise?"
         ])
-
     elif any(word in last_msg for word in ["happy", "excited", "joy", "glad", "cheerful"]):
         return random.choice([
             "That's awesome! Want to share what made you feel this way?",
             "I love hearing happy news. Let’s celebrate your joy! 🎉",
             "Yay! Positive vibes are the best vibes!"
         ])
-
     elif any(word in last_msg for word in ["anxious", "nervous", "panic", "afraid", "worried"]):
         return random.choice([
             "Anxiety can be tough. Want to try a short mindfulness technique?",
             "You're safe here. Just take a deep breath with me — inhale… exhale…",
             "Would writing down your thoughts help you feel better?"
         ])
-
     elif "breathe" in last_msg:
         return "Here’s a quick breathing trick: Inhale for 4… Hold for 4… Exhale for 4… Repeat 💛"
-
     elif "thank" in last_msg:
         return "Anytime! I’m really glad to be here with you."
-
     elif "bye" in last_msg or "goodbye" in last_msg:
         return "Take care, Mithi 🌼 Come back anytime you need me!"
-
     else:
         return random.choice([
             "I'm here for you. Want to tell me more?",
@@ -300,12 +234,10 @@ def bot_reply(history):
             "Would journaling help you right now?"
         ])
 
-
 @app.route("/chatbot", methods=["POST"])
 def chatbot():
     user_msg = request.json.get("message", "").lower()
 
-    # --- Rule-based responses ---
     if "hello" in user_msg or "hi" in user_msg:
         reply = "Hello! 😊 How are you feeling today?"
     elif "sad" in user_msg or "upset" in user_msg:
@@ -317,20 +249,15 @@ def chatbot():
     elif "bye" in user_msg or "goodbye" in user_msg:
         reply = "Take care 🌸 Remember, you're not alone."
     else:
-        # Fallback to emotion-based smart replies
         history = [{"role": "user", "content": user_msg}]
-        reply = bot_reply(history)  # 👈 use a separate function name
+        reply = bot_reply(history)
 
-    # Save conversation to DB
-    sql = "INSERT INTO chatbot_conversations (user_msg, bot_reply) VALUES (%s, %s)"
-    conn = get_mysql_connection()
+    conn = get_db_connection()
     cursor = conn.cursor()
-    val = (user_msg, reply)
-    cursor.execute(sql, val)
+    cursor.execute("CREATE TABLE IF NOT EXISTS chatbot_conversations (user_msg TEXT, bot_reply TEXT)")
+    cursor.execute("INSERT INTO chatbot_conversations (user_msg, bot_reply) VALUES (?, ?)", (user_msg, reply))
     conn.commit()
-
-    return jsonify({"response": reply})
-
+    return jsonify({"reply": reply})
 
 @app.route("/chatbot", methods=["GET"])
 def chatbot_page():
@@ -344,7 +271,6 @@ def page_not_found(e):
 def logout():
     session.pop('username', None)
     return redirect(url_for('GetStarted'))
-
 
 if __name__ == '__main__':
     app.run(debug=True)

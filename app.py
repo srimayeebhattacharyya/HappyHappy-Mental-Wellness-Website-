@@ -257,6 +257,7 @@ def chatbot():
     cursor.execute("CREATE TABLE IF NOT EXISTS chatbot_conversations (user_msg TEXT, bot_reply TEXT)")
     cursor.execute("INSERT INTO chatbot_conversations (user_msg, bot_reply) VALUES (?, ?)", (user_msg, reply))
     conn.commit()
+    conn.close()
     return jsonify({"reply": reply})
 
 @app.route("/chatbot", methods=["GET"])

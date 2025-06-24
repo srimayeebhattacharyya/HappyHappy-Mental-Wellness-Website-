@@ -2,34 +2,51 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact Us - HappyHappy 🌿</title>
-    <link rel="stylesheet" href="/static/style4.css">
+    <link rel="stylesheet" href="/static/modern-style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <div class="container">
         <header>
-            <h1 class="logo">HappyHappy 🌿</h1>
+            <h1 class="logo"><i class="fas fa-leaf"></i> HappyHappy 🌿</h1>
             <div id="nav">
                 <ul>
-                    <li><a href="{{ url_for('index') }}">Back To Home</a></li>
+                    <li><a href="{{ url_for('index') }}"><i class="fas fa-home"></i> Back To Home</a></li>
                 </ul>
             </div>
         </header>
 
-        <section class="contact">
-            <h2>Contact Us 📬</h2>
-            <p>If you have any questions, feedback, or just want to talk, feel free to reach out.</p>
-            <form method="POST" action="{{ url_for('Contact') }}">
-                <label for="name">Name:</label>
-                <input type="text" id="name" name="name" required>
+        <section class="contact" style="padding: 3rem 2rem; background-color: white; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08); margin: 4rem 0;">
+            <h2 style="text-align: center; color: #3f7257; font-size: 2.2rem; margin-bottom: 2rem; position: relative; padding-bottom: 15px;">
+                <i class="fas fa-envelope"></i> Contact Us
+            </h2>
+            <div style="width: 80px; height: 4px; background-color: #f9a826; border-radius: 2px; margin: -15px auto 30px;"></div>
+            
+            <p style="text-align: center; font-size: 1.2rem; margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto; color: #666666;">
+                If you have any questions, feedback, or just want to talk, feel free to reach out. We're here to help!
+            </p>
+            
+            <form method="POST" action="{{ url_for('Contact') }}" style="max-width: 600px; margin: auto; background-color: rgba(255, 255, 255, 0.7); padding: 2rem; border-radius: 12px; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);">
+                <div style="margin-bottom: 1.5rem;">
+                    <label for="name" style="display: block; margin-bottom: 0.5rem; font-weight: bold; color: #2d5943;">Name:</label>
+                    <input type="text" id="name" name="name" required style="width: 100%; padding: 1rem; border-radius: 10px; border: 1px solid #e0e0e0; font-size: 1rem; transition: all 0.3s ease;">
+                </div>
 
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required>
+                <div style="margin-bottom: 1.5rem;">
+                    <label for="email" style="display: block; margin-bottom: 0.5rem; font-weight: bold; color: #2d5943;">Email:</label>
+                    <input type="email" id="email" name="email" required style="width: 100%; padding: 1rem; border-radius: 10px; border: 1px solid #e0e0e0; font-size: 1rem; transition: all 0.3s ease;">
+                </div>
 
-                <label for="message">Message:</label>
-                <textarea id="message" name="message" rows="5" placeholder="Your message here..." required></textarea>
+                <div style="margin-bottom: 1.5rem;">
+                    <label for="message" style="display: block; margin-bottom: 0.5rem; font-weight: bold; color: #2d5943;">Message:</label>
+                    <textarea id="message" name="message" rows="5" placeholder="Your message here..." required style="width: 100%; padding: 1rem; border-radius: 10px; border: 1px solid #e0e0e0; font-size: 1rem; resize: none; transition: all 0.3s ease;"></textarea>
+                </div>
 
-                <button type="submit">Send Message</button>
+                <button type="submit" style="background-color: #3f7257; color: white; border: none; padding: 1rem 2.5rem; border-radius: 50px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(63, 114, 87, 0.3); display: block; margin: 0 auto;">
+                    <i class="fas fa-paper-plane"></i> Send Message
+                </button>
             </form>
         </section>
     </div>

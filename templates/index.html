@@ -3,52 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mental Wellness</title>
-    <link rel="stylesheet" href="/static/style.css">
+    <title>HappyHappy - Your Mental Wellness Journey</title>
+    <link rel="stylesheet" href="/static/modern-style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <div class="container">
         <header>
-            <h1 class="logo">HappyHappy 🌿</h1>
+            <h1 class="logo"><i class="fas fa-leaf"></i> HappyHappy 🌿</h1>
             <div id="nav">
                 <ul>
-                    <li><a href="{{ url_for('index') }}">Home</a></li>
-                    <li><a href="#self-help">Self-Help</a></li>
-                    <li><a href="/Stories">Stories</a></li>
-                    <li><a href="{{ url_for('Contact') }}">Contact</a></li>
-                    <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                    <li><a href="{{ url_for('index') }}"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="#self-help"><i class="fas fa-tools"></i> Self-Help</a></li>
+                    <li><a href="/Stories"><i class="fas fa-book-open"></i> Stories</a></li>
+                    <li><a href="{{ url_for('Contact') }}"><i class="fas fa-envelope"></i> Contact</a></li>
+                    <li><a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
                 </ul>
             </div>
         </header>
         <section class="hero">
-            <h1>Your Mental Wellness Journey Starts Here</h1>
-            <p>Explore expert advice, tools, and a supportive community for your mental well-being.</p>
-            <a href="/GetStarted" class="btn">Get Started</a>
+            <div class="hero-content">
+                <h1>Your Mental Wellness Journey Starts Here</h1>
+                <p>Explore expert advice, tools, and a supportive community for your mental well-being.</p>
+                <div class="hero-buttons">
+                    <a href="/GetStarted" class="btn"><i class="fas fa-arrow-right"></i> Get Started</a>
+                    <a href="#self-help" class="btn" style="background-color: transparent; color: var(--primary); border: 2px solid var(--primary); margin-left: 15px;"><i class="fas fa-info-circle"></i> Learn More</a>
+                </div>
+            </div>
         </section>
         <section class="self-help" id="self-help">
             <h2>Self-Help Tools 🛠️</h2>
             <div class="tools">
                 <div class="tool-card">
+                    <i class="fas fa-book fa-3x" style="color: #3f7257; margin-bottom: 1rem;"></i>
                     <h3>Daily Journal</h3>
                     <p>Write down your thoughts, feelings, and reflections with ease.</p>
-                    <a href="{{ url_for('journal') }}" class="tool-btn">Open Journal</a>
+                    <a href="{{ url_for('journal') }}" class="tool-btn"><i class="fas fa-pen"></i> Open Journal</a>
                 </div>
                 <div class="tool-card">
+                    <i class="fas fa-wind fa-3x" style="color: #3f7257; margin-bottom: 1rem;"></i>
                     <h3>Breathing Exercise</h3>
                     <p>Practice guided breathing to reduce stress and anxiety.</p>
-                    <a href="{{ url_for('Trynow') }}" class="tool-btn">Try Now</a>
+                    <a href="{{ url_for('Trynow') }}" class="tool-btn"><i class="fas fa-play"></i> Try Now</a>
                 </div>
                 <div class="tool-card">
+                    <i class="fas fa-sun fa-3x" style="color: #3f7257; margin-bottom: 1rem;"></i>
                     <h3>Affirmations</h3>
                     <p>Read or generate positive affirmations to boost your mood.</p>
-                    <a href="/Affirmations" class="tool-btn">Get Affirmations</a>
+                    <a href="/Affirmations" class="tool-btn"><i class="fas fa-heart"></i> Get Affirmations</a>
                 </div>
             </div>
         </section>
         <section id="mood-tracker">
-            <h2>How Are You Feeling Today? 💬</h2>
+            <h2><i class="fas fa-smile"></i> How Are You Feeling Today?</h2>
             <form class="mood-form" method="POST" action="{{ url_for('submit_mood') }}">
-                <label for="mood">Select Your Mood:</label>
+                <label for="mood"><i class="fas fa-heart"></i> Select Your Mood:</label>
                 <select id="mood" name="mood">
                     <option value="happy">😊 Happy</option>
                     <option value="sad">😢 Sad</option>
@@ -56,40 +65,66 @@
                     <option value="angry">😠 Angry</option>
                     <option value="neutral">😐 Neutral</option>
                 </select>
-                <label for="note">Want to share more?</label>
-                <textarea id="note" name="note" rows="4" placeholder="Write something..."></textarea>
+                <label for="note"><i class="fas fa-comment"></i> Want to share more?</label>
+                <textarea id="note" name="note" rows="4" placeholder="Write something about how you're feeling today..."></textarea>
         
-                <button type="submit">Submit Mood</button>
+                <button type="submit"><i class="fas fa-paper-plane"></i> Submit Mood</button>
             </form>
         </section>
         <section class="user-stories">
-            <h2>Real Stories. Real People. 💖</h2>
-            <br>
+            <h2><i class="fas fa-users"></i> Real Stories. Real People.</h2>
             <div class="stories">
                 <div class="story-card">
-                    <p>"After using HappyHappy daily, I feel more in control of my emotions."</p>
+                    <div class="avatar" style="width: 60px; height: 60px; border-radius: 50%; background-color: #3f7257; color: white; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; font-size: 24px;">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <p>"After using HappyHappy daily, I feel more in control of my emotions. The mood tracker has been a game-changer for my mental health journey."</p>
                     <span>- Srimayee, 20</span>
                 </div>
                 <div class="story-card">
-                    <p>"Journaling helped me through tough times. Thank you, HappyHappy!"</p>
+                    <div class="avatar" style="width: 60px; height: 60px; border-radius: 50%; background-color: #3f7257; color: white; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; font-size: 24px;">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <p>"Journaling helped me through tough times. The breathing exercises have reduced my anxiety significantly. Thank you, HappyHappy!"</p>
                     <span>- Rishi, 22</span>
+                </div>
+                <div class="story-card">
+                    <div class="avatar" style="width: 60px; height: 60px; border-radius: 50%; background-color: #3f7257; color: white; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; font-size: 24px;">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <p>"The daily affirmations have completely changed my outlook on life. I start each day with positivity now."</p>
+                    <span>- Maya, 25</span>
                 </div>
             </div>
         </section>  
         <section class="quotes">
-            <h2>Words That Heal 🌈</h2>
-            <blockquote>"You don’t have to control your thoughts. You just have to stop letting them control you." — Dan Millman</blockquote>
-            <blockquote>"Your mental health is a priority. Your happiness is essential. Your self-care is a necessity."</blockquote>
+            <h2><i class="fas fa-quote-left"></i> Words That Heal</h2>
+            <div class="quote-container" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; margin-top: 30px;">
+                <blockquote>
+                    <i class="fas fa-quote-left" style="font-size: 24px; color: var(--primary-light); opacity: 0.5; margin-right: 10px;"></i>
+                    "You don't have to control your thoughts. You just have to stop letting them control you."
+                    <footer style="margin-top: 10px; font-weight: 600; color: white;">— Dan Millman</footer>
+                </blockquote>
+                <blockquote>
+                    <i class="fas fa-quote-left" style="font-size: 24px; color: var(--primary-light); opacity: 0.5; margin-right: 10px;"></i>
+                    "Your mental health is a priority. Your happiness is essential. Your self-care is a necessity."
+                    <footer style="margin-top: 10px; font-weight: 600; color:white;">— Anonymous</footer>
+                </blockquote>
+            </div>
         </section>
         <section class="chatbot">
-            <h2>Need a friend to talk to?</h2>
-            <p>Try our supportive chatbot to express your feelings, ask questions, or just talk. 💬</p>
-            <a href="/chatbot" class="chatbot-btn">Chat Now</a>          
-        </section>                                               
+            <div style="max-width: 800px; margin: 0 auto;">
+                <h2><i class="fas fa-robot"></i> Need a friend to talk to?</h2>
+                <p>Try our supportive chatbot to express your feelings, ask questions, or just talk.</p>
+                <div style="margin-top: 30px; display: flex; justify-content: center;">
+                    <a href="/chatbot" class="chatbot-btn"><i class="fas fa-comments"></i> Chat Now</a>
+                </div>
+            </div>          
+        </section>
         <section class="about">
-            <h2>Why Mental Wellness Matters</h2>
-            <br>
-            <p>Mental wellness is just as important as physical health. At HappyHappy, we provide a safe space, tools, and guidance for anyone seeking support.</p>
+            <h2><i class="fas fa-heart"></i> Why Mental Wellness Matters</h2>
+            
+            <p style="font-size: 1.2rem; max-width: 800px; margin: 0 auto; color: var(--text-light);">Mental wellness is just as important as physical health. At HappyHappy, we provide a safe space, tools, and guidance for anyone seeking support on their journey to better mental health.</p>
         </section>
         <section class="featured-articles">
             <h2>Featured Articles</h2>
@@ -128,7 +163,13 @@
             </div>
           </section>
         <footer>
-            <p>© 2025 HappyHappy | Privacy Policy | All rights reserved</p>
+            <p>© 2025 HappyHappy | <a href="#" style="color: white; text-decoration: none;">Privacy Policy</a> | <a href="#" style="color: white; text-decoration: none;">Terms of Service</a></p>
+            <div style="margin-top: 1rem;">
+                <a href="#" style="color: white; margin: 0 10px;"><i class="fab fa-facebook fa-lg"></i></a>
+                <a href="#" style="color: white; margin: 0 10px;"><i class="fab fa-twitter fa-lg"></i></a>
+                <a href="#" style="color: white; margin: 0 10px;"><i class="fab fa-instagram fa-lg"></i></a>
+                <a href="#" style="color: white; margin: 0 10px;"><i class="fab fa-youtube fa-lg"></i></a>
+            </div>
         </footer>
     </div>
 </body>
